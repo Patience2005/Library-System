@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Library System - Java Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            color: white;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #2196F3;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .demo-box {
+            background: #f5f5f5;
+            border: 2px solid #2196F3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .lecture-title {
+            background: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .code-example {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .interactive-demo {
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1976d2;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #1976d2;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        .result {
+            background: #c8e6c9;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #2e7d32;
+        }
+        .error {
+            background: #ffcdd2;
+            border: 2px solid #f44336;
+            color: #c62828;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1976d2;
+        }
+        .tab {
+            padding: 15px 25px;
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab.active {
+            background: #1976d2;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .book-card {
+            background: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .book-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .available {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        .borrowed {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Library Management System</h1>
+        <p class="subtitle">Educational Java Project - Lectures 1-6 Demonstration</p>
+
+        <div class="demo-box">
+            <div class="lecture-title">🎯 What This Project Demonstrates</div>
+            <p>This is an <strong>educational demonstration</strong> showing how Java programming concepts are used in a real library management system.</p>
+            <ul>
+                <li>✅ <strong>Lecture 1</strong>: Java Basics (program structure, I/O)</li>
+                <li>✅ <strong>Lecture 2</strong>: Data Types (String, int, double, boolean)</li>
+                <li>✅ <strong>Lecture 3</strong>: Operators (arithmetic, relational)</li>
+                <li>✅ <strong>Lecture 4</strong>: Logical Operators (&&, ||, !)</li>
+                <li>✅ <strong>Lecture 5</strong>: Decision Making (if-else, switch)</li>
+                <li>✅ <strong>Lecture 6</strong>: OOP (inheritance, polymorphism)</li>
+            </ul>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('l1')">📖 Lecture 1</div>
+            <div class="tab" onclick="showTab('l2')">🔢 Lecture 2</div>
+            <div class="tab" onclick="showTab('l3')">➕ Lecture 3</div>
+            <div class="tab" onclick="showTab('l4')">🔗 Lecture 4</div>
+            <div class="tab" onclick="showTab('l5')">🎯 Lecture 5</div>
+            <div class="tab" onclick="showTab('l6')">🏗️ Lecture 6</div>
+        </div>
+
+        <div id="l1" class="tab-content active">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 1: Java Basics</div>
+                <h3>Program Structure & I/O</h3>
+                <div class="code-example">
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.println("Welcome, " + username + "!");
+    }
+}
+                </div>
+                <p><strong>Console Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Enter your name:</label>
+                        <input type="text" id="nameInput" placeholder="Type your name here">
+                    </div>
+                    <button onclick="demonstrateL1()">👋 Say Hello</button>
+                    <div id="l1Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="l2" class="tab-content">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 2: Data Types & Variables</div>
+                <h3>Different Data Types in Library System</h3>
+                <div class="code-example">
+String bookTitle = "Effective Java";     // Text data
+int bookCount = 5;                       // Whole numbers
+double lateFee = 2.50;                   // Decimal numbers
+boolean isAvailable = true;              // True/False values
+                </div>
+                <p><strong>Interactive Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Book Title (String):</label>
+                        <input type="text" id="bookTitle" value="Effective Java">
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Books (int):</label>
+                        <input type="number" id="bookCount" value="3">
+                    </div>
+                    <div class="form-group">
+                        <label>Late Fee (double):</label>
+                        <input type="number" id="lateFee" value="2.50" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Available (boolean):</label>
+                        <select id="isAvailable">
+                            <option value="true">Available</option>
+                            <option value="false">Not Available</option>
+                        </select>
+                    </div>
+                    <button onclick="demonstrateL2()">📊 Show Data Types</button>
+                    <div id="l2Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="l3" class="tab-content">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 3: Operators & Expressions</div>
+                <h3>Arithmetic Operators for Late Fees</h3>
+                <div class="code-example">
+double baseFee = daysOverdue * 0.25;    // Multiplication
+double totalFee = baseFee + 1.00;       // Addition
+double discount = totalFee * 0.10;      // Percentage calculation
+                </div>
+                <p><strong>Fee Calculator Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Days Overdue:</label>
+                        <input type="number" id="daysOverdue" value="5" min="0">
+                    </div>
+                    <button onclick="demonstrateL3()">💰 Calculate Late Fee</button>
+                    <div id="l3Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="l4" class="tab-content">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 4: Logical Operators</div>
+                <h3>Complex Conditions for Book Borrowing</h3>
+                <div class="code-example">
+if (hasOverdueBooks && booksBorrowed >= 5) {
+    return "DENIED - Too many overdue books";
+}
+
+if (isFaculty || isStaff) {
+    return "APPROVED - Extended privileges";
+}
+                </div>
+                <p><strong>Eligibility Checker Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Has Overdue Books:</label>
+                        <select id="hasOverdue">
+                            <option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Books Currently Borrowed:</label>
+                        <input type="number" id="booksBorrowed" value="2" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Patron Type:</label>
+                        <select id="patronType">
+                            <option value="Student">Student</option>
+                            <option value="Faculty">Faculty</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                    <button onclick="demonstrateL4()">🔍 Check Eligibility</button>
+                    <div id="l4Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="l5" class="tab-content">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 5: Decision Making</div>
+                <h3>if-else if-else & Switch Statements</h3>
+                <div class="code-example">
+switch (patronType) {
+    case "Faculty": return 60;  // 60 days
+    case "Staff":   return 45;  // 45 days
+    case "Student": return 21;  // 21 days
+    default:        return 7;   // 7 days
+}
+                </div>
+                <p><strong>Borrowing Limits Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Patron Type:</label>
+                        <select id="patronType2">
+                            <option value="Student">Student</option>
+                            <option value="Faculty">Faculty</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Community">Community</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Requested Borrow Days:</label>
+                        <input type="number" id="requestedDays" value="14" min="1">
+                    </div>
+                    <button onclick="demonstrateL5()">📋 Check Borrowing Decision</button>
+                    <div id="l5Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="l6" class="tab-content">
+            <div class="demo-box">
+                <div class="lecture-title">Lecture 6: OOP Concepts</div>
+                <h3>Inheritance & Polymorphism</h3>
+                <div class="code-example">
+// Abstract base class
+abstract class LibraryItem {
+    public abstract double calculateLateFee(int days);
+}
+
+// Subclass with specific implementation
+class FictionBook extends LibraryItem {
+    @Override
+    public double calculateLateFee(int days) {
+        return days * 0.25;  // Fiction books rate
+    }
+}
+                </div>
+                <p><strong>Book Type Demo:</strong></p>
+                <div class="interactive-demo">
+                    <div class="form-group">
+                        <label>Book Type:</label>
+                        <select id="bookType">
+                            <option value="Fiction">Fiction Book</option>
+                            <option value="NonFiction">Non-Fiction Book</option>
+                            <option value="Reference">Reference Book</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Days Overdue:</label>
+                        <input type="number" id="daysOverdue2" value="5" min="0">
+                    </div>
+                    <button onclick="demonstrateL6()">📚 Calculate Book-Specific Fee</button>
+                    <div id="l6Result"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-box">
+            <div class="lecture-title">🏆 Complete Library System Demo</div>
+            <h3>Try the Full Interactive Library</h3>
+            <div class="book-list" id="bookList"></div>
+            <div class="interactive-demo">
+                <h4>Borrow a Book</h4>
+                <div class="form-group">
+                    <label>Select Book:</label>
+                    <select id="borrowBookSelect">
+                        <option value="">Choose a book...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Name:</label>
+                    <input type="text" id="borrowerName" placeholder="Enter your name">
+                </div>
+                <button onclick="borrowBook()">📚 Borrow Selected Book</button>
+                <div id="borrowResult"></div>
+            </div>
+        </div>
+
+        <div class="demo-box">
+            <div class="lecture-title">📁 Project Files</div>
+            <p><strong>Console Application:</strong> Run with <code>java lims.Main</code></p>
+            <p><strong>Web Frontend:</strong> Open <code>frontend_preview.html</code> in browser</p>
+            <p><strong>Examples:</strong> See <code>EXAMPLES.md</code> for detailed code examples</p>
+            <p><strong>Documentation:</strong> Check <code>README.md</code> for project overview</p>
+        </div>
+    </div>
+
+    <script>
+        // Sample books data
+        const books = [
+            { title: "Effective Java", author: "Joshua Bloch", type: "Fiction", available: true, isbn: "978-0-13-468599-1" },
+            { title: "Clean Code", author: "Robert Martin", type: "Fiction", available: true, isbn: "978-0-321-35668-0" },
+            { title: "Introduction to Algorithms", author: "Cormen", type: "NonFiction", available: false, isbn: "978-1-4919-5076-6" },
+            { title: "Java Language Specification", author: "Gosling", type: "Reference", available: true, isbn: "978-0-13-235088-4" }
+        ];
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Lecture 1 Demo
+        function demonstrateL1() {
+            const name = document.getElementById('nameInput').value;
+            const result = document.getElementById('l1Result');
+            result.className = 'result';
+            result.innerHTML = `
+                <h4>✅ Java I/O Demonstration</h4>
+                <p><strong>Input:</strong> ${name}</p>
+                <p><strong>Output:</strong> Hello, ${name}! Welcome to the Library System!</p>
+                <p><em>This demonstrates basic Java input/output operations.</em></p>
+            `;
+        }
+
+        // Lecture 2 Demo
+        function demonstrateL2() {
+            const title = document.getElementById('bookTitle').value;
+            const count = document.getElementById('bookCount').value;
+            const fee = document.getElementById('lateFee').value;
+            const available = document.getElementById('isAvailable').value;
+            
+            const result = document.getElementById('l2Result');
+            result.className = 'result';
+            result.innerHTML = `
+                <h4>📊 Data Types Demonstration</h4>
+                <p><strong>String (title):</strong> "${title}"</p>
+                <p><strong>int (count):</strong> ${count}</p>
+                <p><strong>double (fee):</strong> $${fee}</p>
+                <p><strong>boolean (available):</strong> ${available}</p>
+                <p><em>Shows different data types used in library management.</em></p>
+            `;
+        }
+
+        // Lecture 3 Demo
+        function demonstrateL3() {
+            const days = parseInt(document.getElementById('daysOverdue').value);
+            const baseFee = days * 0.25;
+            const processingFee = 1.00;
+            const totalFee = baseFee + processingFee;
+            
+            const result = document.getElementById('l3Result');
+            result.className = 'result';
+            result.innerHTML = `
+                <h4>💰 Arithmetic Operations</h4>
+                <p><strong>Days Overdue:</strong> ${days}</p>
+                <p><strong>Base Fee (days × $0.25):</strong> $${baseFee.toFixed(2)}</p>
+                <p><strong>Processing Fee:</strong> $${processingFee.toFixed(2)}</p>
+                <p><strong>Total Fee:</strong> $${totalFee.toFixed(2)}</p>
+                <p><em>Demonstrates arithmetic operators in fee calculation.</em></p>
+            `;
+        }
+
+        // Lecture 4 Demo
+        function demonstrateL4() {
+            const hasOverdue = document.getElementById('hasOverdue').value === 'true';
+            const borrowed = parseInt(document.getElementById('booksBorrowed').value);
+            const type = document.getElementById('patronType').value;
+            
+            let eligible = true;
+            let reason = "";
+            
+            // Logical operators demonstration
+            if (hasOverdue && borrowed >= 5) {
+                eligible = false;
+                reason = "DENIED: Overdue books AND too many books borrowed";
+            } else if (borrowed >= 5 && !hasOverdue) {
+                eligible = false;
+                reason = "DENIED: Maximum book limit reached";
+            } else if (type === 'Faculty' || type === 'Staff') {
+                reason = "APPROVED: Faculty/Staff privileges";
+            } else {
+                reason = "APPROVED: Standard borrowing privileges";
+            }
+            
+            const result = document.getElementById('l4Result');
+            result.className = eligible ? 'result' : 'result error';
+            result.innerHTML = `
+                <h4>${eligible ? '✅' : '❌'} Logical Operators Result</h4>
+                <p><strong>Conditions:</strong></p>
+                <p>• Has Overdue: ${hasOverdue}</p>
+                <p>• Books Borrowed: ${borrowed}</p>
+                <p>• Patron Type: ${type}</p>
+                <p><strong>Decision:</strong> ${reason}</p>
+                <p><em>Uses AND (&&), OR (||) operators for complex conditions.</em></p>
+            `;
+        }
+
+        // Lecture 5 Demo
+        function demonstrateL5() {
+            const type = document.getElementById('patronType2').value;
+            const requested = parseInt(document.getElementById('requestedDays').value);
+            
+            let maxDays = 7;
+            switch (type) {
+                case 'Faculty': maxDays = 60; break;
+                case 'Staff': maxDays = 45; break;
+                case 'Student': maxDays = 21; break;
+                case 'Community': maxDays = 7; break;
+            }
+            
+            let decision = "";
+            if (requested > maxDays) {
+                decision = `❌ DENIED: ${type} can only borrow ${maxDays} days (requested ${requested})`;
+            } else if (requested <= 0) {
+                decision = "❌ DENIED: Invalid borrowing period";
+            } else {
+                decision = `✅ APPROVED: ${type} can borrow ${requested} days (max: ${maxDays})`;
+            }
+            
+            const result = document.getElementById('l5Result');
+            result.className = decision.includes('APPROVED') ? 'result' : 'result error';
+            result.innerHTML = `
+                <h4>📋 Decision Making Result</h4>
+                <p><strong>Patron Type:</strong> ${type}</p>
+                <p><strong>Maximum Allowed:</strong> ${maxDays} days</p>
+                <p><strong>Requested:</strong> ${requested} days</p>
+                <p><strong>Decision:</strong> ${decision}</p>
+                <p><em>Demonstrates switch statement and if-else logic.</em></p>
+            `;
+        }
+
+        // Lecture 6 Demo
+        function demonstrateL6() {
+            const type = document.getElementById('bookType').value;
+            const days = parseInt(document.getElementById('daysOverdue2').value);
+            
+            let fee = 0;
+            let description = "";
+            
+            // Polymorphism demonstration
+            switch (type) {
+                case 'Fiction':
+                    fee = days * 0.25;
+                    description = "Fiction books: $0.25 per day";
+                    break;
+                case 'NonFiction':
+                    fee = days * 0.20;
+                    description = "Non-fiction books: $0.20 per day (educational discount)";
+                    break;
+                case 'Reference':
+                    fee = 0;
+                    description = "Reference books: Cannot be borrowed (no fee)";
+                    break;
+            }
+            
+            const result = document.getElementById('l6Result');
+            result.className = 'result';
+            result.innerHTML = `
+                <h4>📚 OOP Polymorphism Result</h4>
+                <p><strong>Book Type:</strong> ${type}</p>
+                <p><strong>Calculation Method:</strong> ${description}</p>
+                <p><strong>Days Overdue:</strong> ${days}</p>
+                <p><strong>Late Fee:</strong> $${fee.toFixed(2)}</p>
+                <p><em>Shows polymorphism - different fee calculation for each book type.</em></p>
+            `;
+        }
+
+        // Initialize book list
+        function initializeBooks() {
+            const bookList = document.getElementById('bookList');
+            const borrowSelect = document.getElementById('borrowBookSelect');
+            
+            books.forEach(book => {
+                // Create book card
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `
+                    <div class="book-title">${book.title}</div>
+                    <div>by ${book.author}</div>
+                    <div>Type: ${book.type}</div>
+                    <div class="status ${book.available ? 'available' : 'borrowed'}">
+                        ${book.available ? '✅ Available' : '❌ Borrowed'}
+                    </div>
+                `;
+                bookList.appendChild(card);
+                
+                // Add to borrow select if available
+                if (book.available) {
+                    const option = document.createElement('option');
+                    option.value = book.isbn;
+                    option.textContent = `${book.title} (${book.isbn})`;
+                    borrowSelect.appendChild(option);
+                }
+            });
+        }
+
+        // Borrow book function
+        function borrowBook() {
+            const bookIsbn = document.getElementById('borrowBookSelect').value;
+            const borrowerName = document.getElementById('borrowerName').value;
+            const result = document.getElementById('borrowResult');
+            
+            if (!bookIsbn) {
+                result.className = 'result error';
+                result.innerHTML = '<p>❌ Please select a book to borrow.</p>';
+                return;
+            }
+            
+            if (!borrowerName) {
+                result.className = 'result error';
+                result.innerHTML = '<p>❌ Please enter your name.</p>';
+                return;
+            }
+            
+            const book = books.find(b => b.isbn === bookIsbn);
+            result.className = 'result';
+            result.innerHTML = `
+                <h4>✅ Book Borrowed Successfully!</h4>
+                <p><strong>Book:</strong> ${book.title}</p>
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Borrower:</strong> ${borrowerName}</p>
+                <p><strong>Due Date:</strong> ${new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
+                <p><strong>Transaction ID:</strong> TXN${Math.floor(Math.random() * 10000)}</p>
+                <p><em>This demonstrates the complete library borrowing process!</em></p>
+            `;
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeBooks);
+    </script>
+</body>
+</html>

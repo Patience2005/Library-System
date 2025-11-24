@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library System Test</title>
+</head>
+<body style="background-color: lightblue; font-family: Arial; padding: 20px;">
+    
+    <h1 style="color: red; text-align: center;">🔴 BROWSER TEST - IF YOU SEE THIS, IT WORKS! 🔴</h1>
+    
+    <div style="background-color: white; padding: 20px; margin: 20px; border-radius: 10px;">
+        <h2 style="color: blue;">📚 Library Management System</h2>
+        <h3>Java Programming Lectures 1-6 Demonstration</h3>
+        
+        <p><strong>✅ SUCCESS:</strong> Your browser can open HTML files!</p>
+        
+        <hr>
+        
+        <h3>🎯 What This Project Demonstrates:</h3>
+        <ul>
+            <li>Lecture 1: Java Basics (program structure, I/O)</li>
+            <li>Lecture 2: Data Types (String, int, double, boolean)</li>
+            <li>Lecture 3: Operators (arithmetic, relational)</li>
+            <li>Lecture 4: Logical Operators (&&, ||, !)</li>
+            <li>Lecture 5: Decision Making (if-else, switch)</li>
+            <li>Lecture 6: OOP (inheritance, polymorphism)</li>
+        </ul>
+        
+        <hr>
+        
+        <h3>🎮 Try This Interactive Demo:</h3>
+        <p>Enter your name to see Java I/O in action:</p>
+        
+        <input type="text" id="nameInput" placeholder="Type your name here" style="padding: 10px; width: 300px; font-size: 16px;">
+        <br><br>
+        <button onclick="sayHello()" style="background-color: green; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px;">👋 Say Hello</button>
+        
+        <div id="result" style="background-color: yellow; padding: 15px; margin: 20px 0; border-radius: 5px; display: none;"></div>
+        
+        <hr>
+        
+        <h3>📚 Sample Library Books:</h3>
+        <div style="background-color: #f0f0f0; padding: 15px; border-radius: 5px;">
+            <div>📖 Effective Java by Joshua Bloch - ✅ Available</div>
+            <div>📖 Clean Code by Robert Martin - ✅ Available</div>
+            <div>📖 Introduction to Algorithms by Cormen - ❌ Borrowed</div>
+            <div>📖 Java Language Specification by Gosling - ✅ Available</div>
+        </div>
+        
+        <hr>
+        
+        <h3>🔧 How to Run the Console Version:</h3>
+        <p><code>cd "C:\Users\ADMIN\Library-System"</code></p>
+        <p><code>java lims.Main</code></p>
+        <p><strong>Login:</strong> Username: librarian, Password: admin123</p>
+        
+        <hr>
+        
+        <h3>📁 Project Files:</h3>
+        <ul>
+            <li><code>README.md</code> - Project overview</li>
+            <li><code>EXAMPLES.md</code> - Detailed code examples</li>
+            <li><code>simple_demo.html</code> - Full interactive demo</li>
+            <li><code>frontend_preview.html</code> - Professional interface</li>
+        </ul>
+    </div>
+    
+    <script>
+        function sayHello() {
+            var name = document.getElementById('nameInput').value;
+            var result = document.getElementById('result');
+            
+            if (name === '') {
+                result.innerHTML = '⚠️ Please enter your name first!';
+                result.style.display = 'block';
+                result.style.backgroundColor = '#ffcccc';
+                result.style.color = 'red';
+            } else {
+                result.innerHTML = '✅ Hello, <strong>' + name + '</strong>! Welcome to the Library Management System!<br><br><em>This demonstrates Java input/output operations - similar to System.out.println() in Java!</em>';
+                result.style.display = 'block';
+                result.style.backgroundColor = '#ccffcc';
+                result.style.color = 'green';
+            }
+        }
+    </script>
+    
+</body>
+</html>

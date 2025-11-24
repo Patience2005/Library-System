@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Educational Java Project</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        .header h1 {
+            color: #667eea;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+            margin: 10px 0 0 0;
+        }
+        .nav-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        .nav-tab {
+            padding: 15px 25px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+        .nav-tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .book-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .book-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .book-author {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .book-isbn {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .status-available {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .status-borrowed {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .links-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .links-section h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .link-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        .link-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Library Management System</h1>
+            <p>Educational Java Project - Lectures 1-6 Demonstration</p>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('books')">📖 View Books</div>
+            <div class="nav-tab" onclick="showTab('borrow')">📝 Borrow Book</div>
+            <div class="nav-tab" onclick="showTab('return')">↩️ Return Book</div>
+            <div class="nav-tab" onclick="showTab('search')">🔍 Search Books</div>
+        </div>
+
+        <div id="books" class="tab-content active">
+            <h2>Available Books</h2>
+            <button class="btn" onclick="loadBooks()">Refresh Books</button>
+            <div id="booksList" class="books-grid"></div>
+        </div>
+
+        <div id="borrow" class="tab-content">
+            <h2>Borrow a Book</h2>
+            <form id="borrowForm">
+                <div class="form-group">
+                    <label for="patronId">Patron ID:</label>
+                    <input type="text" id="patronId" name="patronId" required>
+                </div>
+                <div class="form-group">
+                    <label for="patronName">Patron Name:</label>
+                    <input type="text" id="patronName" name="patronName" required>
+                </div>
+                <div class="form-group">
+                    <label for="patronType">Patron Type:</label>
+                    <select id="patronType" name="patronType" required>
+                        <option value="">Select Type</option>
+                        <option value="Student">Student</option>
+                        <option value="Faculty">Faculty</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="bookIsbn">Book ISBN:</label>
+                    <input type="text" id="bookIsbn" name="bookIsbn" required>
+                </div>
+                <div class="form-group">
+                    <label for="borrowDays">Borrow Days:</label>
+                    <input type="number" id="borrowDays" name="borrowDays" min="1" max="60" required>
+                </div>
+                <button type="submit" class="btn">Borrow Book</button>
+            </form>
+            <div id="borrowResponse"></div>
+        </div>
+
+        <div id="return" class="tab-content">
+            <h2>Return a Book</h2>
+            <form id="returnForm">
+                <div class="form-group">
+                    <label for="returnIsbn">Book ISBN:</label>
+                    <input type="text" id="returnIsbn" name="returnIsbn" required>
+                </div>
+                <button type="submit" class="btn">Return Book</button>
+            </form>
+            <div id="returnResponse"></div>
+        </div>
+
+        <div id="search" class="tab-content">
+            <h2>Search Books</h2>
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="searchTerm">Search by Title or Author:</label>
+                    <input type="text" id="searchTerm" name="searchTerm" required>
+                </div>
+                <button type="submit" class="btn">Search</button>
+            </form>
+            <div id="searchResults" class="books-grid"></div>
+        </div>
+
+        <div class="links-section">
+            <h3>🔗 Developer Tools & Documentation</h3>
+            <div class="link-item">
+                <strong>📚 Swagger UI:</strong> 
+                <a href="http://localhost:8080/swagger-ui.html" target="_blank">Interactive API Documentation</a>
+                <br><small>Test all API endpoints with live documentation</small>
+            </div>
+            <div class="link-item">
+                <strong>🗄️ H2 Database Console:</strong> 
+                <a href="http://localhost:8080/h2-console" target="_blank">Database Management</a>
+                <br><small>JDBC URL: jdbc:h2:mem:librarydb | Username: sa | Password: password</small>
+            </div>
+            <div class="link-item">
+                <strong>📖 API Documentation:</strong> 
+                <a href="http://localhost:8080/api-docs" target="_blank">OpenAPI Specification</a>
+                <br><small>Raw API documentation in JSON format</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api/library';
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load books when books tab is shown
+            if (tabName === 'books') {
+                loadBooks();
+            }
+        }
+
+        async function loadBooks() {
+            try {
+                const response = await fetch(`${API_BASE}/books`);
+                const books = await response.json();
+                
+                const booksList = document.getElementById('booksList');
+                booksList.innerHTML = '';
+                
+                books.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'book-card';
+                    bookCard.innerHTML = `
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">by ${book.author}</div>
+                        <div class="book-isbn">ISBN: ${book.isbn}</div>
+                        <div class="${book.available ? 'status-available' : 'status-borrowed'}">
+                            ${book.available ? '✅ Available' : '❌ Borrowed'}
+                        </div>
+                    `;
+                    booksList.appendChild(bookCard);
+                });
+            } catch (error) {
+                document.getElementById('booksList').innerHTML = 
+                    '<div class="error">Error loading books. Make sure the server is running.</div>';
+            }
+        }
+
+        document.getElementById('borrowForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const request = {
+                patronId: formData.get('patronId'),
+                patronName: formData.get('patronName'),
+                patronType: formData.get('patronType'),
+                bookIsbn: formData.get('bookIsbn'),
+                borrowDays: parseInt(formData.get('borrowDays'))
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/borrow`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(request)
+                });
+                
+                const result = await response.json();
+                const responseDiv = document.getElementById('borrowResponse');
+                
+                if (response.ok) {
+                    responseDiv.className = 'response';
+                    responseDiv.innerHTML = `
+                        <h3>✅ ${result.status}</h3>
+                        <p>${result.message}</p>
+                        <p><strong>Transaction ID:</strong> ${result.transactionId}</p>
+                        <p><strong>Due Date:</strong> ${result.dueDate}</p>
+                        <p><strong>Potential Late Fee:</strong> $${result.potentialLateFee}</p>
+                    `;
+                } else {
+                    responseDiv.className = 'response error';
+                    responseDiv.innerHTML = `<h3>❌ Error</h3><p>${result.message}</p>`;
+                }
+            } catch (error) {
+                document.getElementById('borrowResponse').innerHTML = 
+                    '<div class="error">Error processing request. Make sure the server is running.</div>';
+            }
+        });
+
+        document.getElementById('returnForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const isbn = document.getElementById('returnIsbn').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/return/${isbn}`, {
+                    method: 'POST'
+                });
+                
+                const result = await response.text();
+                const responseDiv = document.getElementById('returnResponse');
+                
+                responseDiv.className = 'response';
+                responseDiv.innerHTML = `<p>${result}</p>`;
+            } catch (error) {
+                document.getElementById('returnResponse').innerHTML = 
+                    '<div class="error">Error processing return. Make sure the server is running.</div>';
+            }
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const searchTerm = document.getElementById('searchTerm').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/books/search?term=${encodeURIComponent(searchTerm)}`);
+                const books = await response.json();
+                
+                const searchResults = document.getElementById('searchResults');
+                searchResults.innerHTML = '';
+                
+                if (books.length === 0) {
+                    searchResults.innerHTML = '<p>No books found matching your search.</p>';
+                } else {
+                    books.forEach(book => {
+                        const bookCard = document.createElement('div');
+                        bookCard.className = 'book-card';
+                        bookCard.innerHTML = `
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">by ${book.author}</div>
+                            <div class="book-isbn">ISBN: ${book.isbn}</div>
+                            <div class="${book.available ? 'status-available' : 'status-borrowed'}">
+                                ${book.available ? '✅ Available' : '❌ Borrowed'}
+                            </div>
+                        `;
+                        searchResults.appendChild(bookCard);
+                    });
+                }
+            } catch (error) {
+                document.getElementById('searchResults').innerHTML = 
+                    '<div class="error">Error searching books. Make sure the server is running.</div>';
+            }
+        });
+
+        // Load books on page load
+        window.addEventListener('load', loadBooks);
+    </script>
+</body>
+</html>
