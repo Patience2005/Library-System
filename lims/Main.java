@@ -1,142 +1,91 @@
-package lims;
-
 import java.util.Scanner;
 import java.util.List;
 
-// Import all required classes
-import lims.service.AuthService;
-import lims.service.CirculationService;
-import lims.service.CatalogService;
-import lims.repository.LibraryRepository;
-import lims.model.LibraryItem;
-import lims.model.FictionBook;
-import lims.model.NonFictionBook;
-import lims.model.ReferenceBook;
-import lims.model.Patron;
-import lims.util.BorrowingTransaction;
-
 /**
- * LIMS - Library Inventory Management System
- * 
- * EDUCATIONAL DEMONSTRATION: This class showcases Lecture 1 concepts
- * - Java Basics: main method, program structure, basic I/O
- * - Object creation and method invocation
- * - Console interaction with Scanner class
- * 
- * @author Student Name
- * @version 1.0
- * @course Java Programming Lectures 1-6
+ * Library Inventory Management System (LIMS)
+ * Main application class with console interface for library operations.
  */
 public class Main {
 
-    // L1: Instance variables for the library system
-    private Scanner scanner;                    // L1: Scanner for console input
-    private AuthService authService;            // L2: Service for staff authentication
-    private LibraryRepository libraryRepo;      // L6: Repository for book management
-    private CirculationService circulationService; // L4, L5: Service for borrowing rules
-    private CatalogService catalogService;      // L3, L5: Service for catalog operations
+    private Scanner scanner;
+    private AuthService authService;
+    private LibraryRepository libraryRepo;
+    private CirculationService circulationService;
+    private CatalogService catalogService;
 
-    /**
-     * L1: Constructor - initializes all library system components
-     * Demonstrates object creation and dependency injection
-     */
     public Main() {
-        this.scanner = new Scanner(System.in);                    // L1: Create Scanner object
-        this.authService = new AuthService();                     // L2: Create authentication service
-        this.libraryRepo = new LibraryRepository();               // L6: Create library repository
-        this.circulationService = new CirculationService(libraryRepo); // L4, L5: Create circulation service
-        this.catalogService = new CatalogService(libraryRepo);    // L3, L5: Create catalog service
+        this.scanner = new Scanner(System.in);
+        this.authService = new AuthService();
+        this.libraryRepo = new LibraryRepository();
+        this.circulationService = new CirculationService(libraryRepo);
+        this.catalogService = new CatalogService(libraryRepo);
     }
 
-    /**
-     * L1: Main method - program entry point
-     * This is where the Java Virtual Machine starts execution
-     */
     public static void main(String[] args) {
-        // L1: Create main library system object
         Main librarySystem = new Main();
-        
-        // L1: Initialize system with sample books
         librarySystem.seedSampleData();
-        
-        // L1: Start the main application loop
         librarySystem.run();
     }
 
-    /**
-     * L1: Main application loop
-     * Demonstrates while loop, switch statement, and method calls
-     */
     public void run() {
-        // L1: Console output - welcome message
         System.out.println("=========================================");
         System.out.println("   Library Inventory Management System");
-        System.out.println("         Educational Java Project");
         System.out.println("=========================================");
-        System.out.println("Demonstrating Lectures 1-6 Concepts");
         System.out.println();
 
-        // L5: Decision making - login process
         if (!performLogin()) {
             System.out.println("Authentication failed. Exiting system.");
-            return; // L1: Early return from method
+            return;
         }
 
-        // L5: Main menu loop using do-while
         int choice;
         do {
-            displayMainMenu();                    // L1: Method call
-            choice = readIntegerInput("Enter your choice (1-5): ");
+            displayMainMenu();
+            choice = readIntegerInput("Enter your choice (1-6): ");
             
-            // L5: Switch statement for menu navigation
             switch (choice) {
                 case 1:
-                    handleBorrowBook();           // L1: Method call
+                    handleAddBook();
                     break;
                 case 2:
-                    handleReturnBook();           // L1: Method call
+                    handleBorrowBook();
                     break;
                 case 3:
-                    handleSearchCatalog();        // L1: Method call
+                    handleReturnBook();
                     break;
                 case 4:
-                    handleViewTransactions();     // L1: Method call
+                    handleSearchCatalog();
                     break;
                 case 5:
+                    handleViewTransactions();
+                    break;
+                case 6:
                     System.out.println("Thank you for using LIMS!");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please enter 1-5.");
+                    System.out.println("Invalid choice. Please enter 1-6.");
                     break;
             }
-        } while (choice != 5);                    // L5: Loop condition
+        } while (choice != 6);
 
-        // L1: Close scanner to prevent resource leaks
         scanner.close();
         System.out.println("System shutdown complete.");
     }
 
-    /**
-     * L5: User authentication with retry logic
-     * Demonstrates if-else statements and for loops
-     */
     private boolean performLogin() {
         System.out.println("=== Library Staff Authentication ===");
         
-        // L5: For loop with fixed attempts
         for (int attempts = 1; attempts <= 3; attempts++) {
             System.out.print("Username: ");
-            String username = scanner.nextLine();     // L1: Read user input
+            String username = scanner.nextLine();
             
             System.out.print("Password: ");
-            String password = scanner.nextLine();     // L1: Read user input
+            String password = scanner.nextLine();
 
-            // L4: Logical expression for authentication
             if (authService.validateUser(username, password)) {
                 System.out.println("Login successful! Welcome, " + username + "!");
-                return true;                          // L5: Return true on success
+                return true;
             } else {
-                // L5: Conditional message based on remaining attempts
                 if (attempts < 3) {
                     System.out.println("Invalid credentials. " + (3 - attempts) + " attempts remaining.");
                 } else {
@@ -144,32 +93,69 @@ public class Main {
                 }
             }
         }
-        return false;                                 // L5: Return false on failure
+        return false;
     }
 
-    /**
-     * L1: Display main menu options
-     * Simple console output demonstration
-     */
     private void displayMainMenu() {
         System.out.println();
         System.out.println("=== Library Main Menu ===");
-        System.out.println("1. Borrow Book           (L5: Decision Making)");
-        System.out.println("2. Return Book           (L3: Date Calculations)");
-        System.out.println("3. Search Catalog        (L6: Inheritance Display)");
-        System.out.println("4. View Transactions     (L2: Data Handling)");
-        System.out.println("5. Exit System           (L1: Program Termination)");
+        System.out.println("1. Add Book");
+        System.out.println("2. Borrow Book");
+        System.out.println("3. Return Book");
+        System.out.println("4. Search Catalog");
+        System.out.println("5. View Transactions");
+        System.out.println("6. Exit System");
     }
 
-    /**
-     * L5: Handle book borrowing workflow
-     * Demonstrates method calls, user input, and business logic
-     */
+    private void handleAddBook() {
+        System.out.println("\n=== Add New Book ===");
+        
+        System.out.print("Enter ISBN: ");
+        String isbn = scanner.nextLine();
+        
+        System.out.print("Enter Title: ");
+        String title = scanner.nextLine();
+        
+        System.out.print("Enter Author: ");
+        String author = scanner.nextLine();
+        
+        System.out.println("Book Types:");
+        System.out.println("1. Fiction");
+        System.out.println("2. Non-Fiction");
+        System.out.println("3. Reference");
+        int bookType = readIntegerInput("Select book type (1-3): ");
+        
+        System.out.print("Enter Category/Genre: ");
+        String category = scanner.nextLine();
+        
+        LibraryItem newBook;
+        switch (bookType) {
+            case 1:
+                newBook = new FictionBook(isbn, title, author, true, category);
+                break;
+            case 2:
+                newBook = new NonFictionBook(isbn, title, author, true, category);
+                break;
+            case 3:
+                newBook = new ReferenceBook(isbn, title, author, true, category);
+                break;
+            default:
+                System.out.println("Invalid book type. Using Fiction as default.");
+                newBook = new FictionBook(isbn, title, author, true, category);
+                break;
+        }
+        
+        libraryRepo.addBook(newBook);
+        System.out.println("✅ Book added successfully: " + title);
+        System.out.println("💾 Book saved to database file!");
+        
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
     private void handleBorrowBook() {
         System.out.println("\n=== Borrow Book ===");
-        System.out.println("This demonstrates L4 (Logical Operators) and L5 (Decision Making)");
 
-        // L2: Get patron information
         System.out.print("Enter patron ID: ");
         String patronID = scanner.nextLine();
 
@@ -179,13 +165,10 @@ public class Main {
         System.out.print("Enter patron type (Student/Faculty/Staff): ");
         String patronType = scanner.nextLine();
 
-        // L6: Create patron object
         Patron patron = new Patron(patronID, patronName, patronType);
 
-        // L6: Display available books
         libraryRepo.displayAvailableBooks();
 
-        // L2: Get book selection
         System.out.print("Enter book ISBN to borrow: ");
         String bookISBN = scanner.nextLine();
 
@@ -195,14 +178,11 @@ public class Main {
             return;
         }
 
-        // L2: Get borrowing parameters
         int borrowDays = readIntegerInput("Enter borrowing period (days): ");
 
-        // L3, L4, L5: Process borrowing with business logic
         BorrowingTransaction transaction = circulationService.processBorrowing(
             patron, selectedBook, borrowDays);
 
-        // L1: Display results
         System.out.println("\n=== Borrowing Summary ===");
         System.out.println(transaction);
         
@@ -210,18 +190,12 @@ public class Main {
         scanner.nextLine();
     }
 
-    /**
-     * L3: Handle book return workflow
-     * Demonstrates date calculations and fee computations
-     */
     private void handleReturnBook() {
         System.out.println("\n=== Return Book ===");
-        System.out.println("This demonstrates L3 (Operators & Expressions)");
 
         System.out.print("Enter book ISBN to return: ");
         String bookISBN = scanner.nextLine();
 
-        // L3: Process return with calculations
         double lateFee = circulationService.processReturn(bookISBN);
         
         if (lateFee > 0) {
@@ -234,13 +208,8 @@ public class Main {
         scanner.nextLine();
     }
 
-    /**
-     * L6: Display book catalog
-     * Shows inheritance and polymorphism
-     */
     private void handleSearchCatalog() {
         System.out.println("\n=== Book Catalog Search ===");
-        System.out.println("This demonstrates L6 (Inheritance & Polymorphism)");
         
         System.out.print("Enter search term (title/author): ");
         String searchTerm = scanner.nextLine();
@@ -260,17 +229,11 @@ public class Main {
         scanner.nextLine();
     }
 
-    /**
-     * L2: Display transaction history
-     * Shows data handling and list processing
-     */
     private void handleViewTransactions() {
         System.out.println("\n=== Transaction History ===");
-        System.out.println("This demonstrates L2 (Data Types & Variables)");
         
         List<BorrowingTransaction> transactions = circulationService.getAllTransactions();
         
-        // L5: Decision making for empty list
         if (transactions.isEmpty()) {
             System.out.println("No transactions found. Process a borrowing first!");
         } else {
@@ -285,44 +248,45 @@ public class Main {
         scanner.nextLine();
     }
 
-    /**
-     * L2: Helper method for reading integer input with validation
-     * Demonstrates exception handling and loop constructs
-     */
     private int readIntegerInput(String prompt) {
-        while (true) {                                    // L5: Infinite loop with break
+        while (true) {
             try {
                 System.out.print(prompt);
-                String input = scanner.nextLine();         // L1: Read input
-                return Integer.parseInt(input);            // L2: Parse to integer
+                String input = scanner.nextLine();
+                return Integer.parseInt(input);
             } catch (NumberFormatException e) {
                 System.out.println("Please enter a valid integer.");
             }
         }
     }
 
-    /**
-     * L6: Initialize system with sample library data
-     * Demonstrates object creation and collection usage
-     */
     private void seedSampleData() {
         System.out.println("Initializing library with sample books...");
         
-        // L6: Create fiction book objects
         libraryRepo.addBook(new FictionBook(
             "978-0-13-468599-1", "Effective Java", "Joshua Bloch", true, "Programming"));
         libraryRepo.addBook(new FictionBook(
             "978-0-321-35668-0", "Clean Code", "Robert C. Martin", true, "Software Engineering"));
         
-        // L6: Create non-fiction book objects
         libraryRepo.addBook(new NonFictionBook(
             "978-1-4919-5076-6", "Introduction to Algorithms", "Thomas H. Cormen", true, "Computer Science"));
         libraryRepo.addBook(new NonFictionBook(
             "978-0-262-03293-3", "Structure and Interpretation", "Harold Abelson", true, "Programming"));
         
-        // L6: Create reference book objects
         libraryRepo.addBook(new ReferenceBook(
             "978-0-13-235088-4", "Java Language Specification", "James Gosling", true, "Reference"));
+        
+        // Additional sample books
+        libraryRepo.addBook(new FictionBook(
+            "978-0-07-180855-3", "Java: The Complete Reference", "Herbert Schildt", true, "Programming"));
+        libraryRepo.addBook(new FictionBook(
+            "978-1-4493-3187-0", "Head First Java", "Kathy Sierra", true, "Education"));
+        libraryRepo.addBook(new NonFictionBook(
+            "978-0-321-76572-3", "The C++ Programming Language", "Bjarne Stroustrup", true, "Computer Science"));
+        libraryRepo.addBook(new NonFictionBook(
+            "978-0-13-110362-7", "The C Programming Language", "Brian Kernighan", true, "Programming"));
+        libraryRepo.addBook(new ReferenceBook(
+            "978-0-13-468599-2", "Python Documentation", "Python Software Foundation", true, "Reference"));
         
         System.out.println("Library initialization complete.");
     }

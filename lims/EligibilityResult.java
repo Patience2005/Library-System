@@ -1,8 +1,3 @@
-package lims.util;
-
-/**
- * EDUCATIONAL DEMONSTRATION: Lecture 6 - Using classes to encapsulate related data
- */
 public class EligibilityResult {
 
     private String status;

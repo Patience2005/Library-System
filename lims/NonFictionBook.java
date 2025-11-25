@@ -1,8 +1,3 @@
-package lims.model;
-
-/**
- * EDUCATIONAL DEMONSTRATION: Lecture 6 - Inheritance and Polymorphism
- */
 public class NonFictionBook extends LibraryItem {
 
     private String subject;
@@ -18,9 +13,8 @@ public class NonFictionBook extends LibraryItem {
 
     @Override
     public double calculateLateFee(int daysOverdue) {
-        double baseFee = daysOverdue * 0.20;  // Lower rate for educational materials
+        double baseFee = daysOverdue * 0.20;
         
-        // Academic subjects get discount
         if ("Computer Science".equalsIgnoreCase(subject) || "Mathematics".equalsIgnoreCase(subject)) {
             baseFee = baseFee * 0.85;
         }

@@ -1,8 +1,3 @@
-package lims.model;
-
-/**
- * EDUCATIONAL DEMONSTRATION: Lecture 6 - Inheritance and Polymorphism
- */
 public class ReferenceBook extends LibraryItem {
 
     private String category;
@@ -18,12 +13,12 @@ public class ReferenceBook extends LibraryItem {
 
     @Override
     public double calculateLateFee(int daysOverdue) {
-        return 0.0;  // Reference books cannot be borrowed, so no late fees
+        return 0.0;
     }
 
     @Override
     public boolean canBeBorrowed() {
-        return false;  // Reference books are for library use only
+        return false;
     }
 
     @Override

@@ -1,21 +1,17 @@
-package lims.repository;
-
-import lims.model.LibraryItem;
-import lims.model.FictionBook;
-import lims.model.NonFictionBook;
-import lims.model.ReferenceBook;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * EDUCATIONAL DEMONSTRATION: Lecture 6 - Repository pattern and collection management
- */
 public class LibraryRepository {
 
     private List<LibraryItem> books = new ArrayList<>();
 
+    public LibraryRepository() {
+        this.books = DatabaseManager.loadBooksFromFile();
+    }
+
     public void addBook(LibraryItem book) {
         books.add(book);
+        DatabaseManager.addBookToFile(book);
     }
 
     public List<LibraryItem> getAllBooks() {

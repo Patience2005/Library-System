@@ -1,38 +1,21 @@
-package lims.model;
-
-/**
- * EDUCATIONAL DEMONSTRATION: This class showcases Lecture 2 concepts
- * - Data Types & Variables: Multiple primitive and reference types
- * - Encapsulation: Private fields with public getters/setters
- * - Business logic: Patron borrowing rules and limits
- * 
- * @author Student Name
- * @version 1.0
- * @course Java Programming Lectures 1-6
- */
 public class Patron {
 
-    // L2: Instance variables with different data types
-    private String patronID;          // L2: Reference type - unique patron identifier
-    private String name;              // L2: Reference type - patron full name
-    private String type;              // L2: Reference type - patron category
-    private int booksBorrowed;        // L2: Primitive type - current book count
-    private int overdueCount;         // L2: Primitive type - overdue books count
-    private boolean hasOverdues;      // L2: Primitive type - overdue status flag
+    private String patronID;
+    private String name;
+    private String type;
+    private int booksBorrowed;
+    private int overdueCount;
+    private boolean hasOverdues;
 
-    /**
-     * L2: Constructor with parameter initialization
-     */
     public Patron(String patronID, String name, String type) {
         this.patronID = patronID;
         this.name = name;
         this.type = type;
-        this.booksBorrowed = 0;       // L2: Initialize to zero
-        this.overdueCount = 0;        // L2: Initialize to zero
-        this.hasOverdues = false;     // L2: Initialize to false
+        this.booksBorrowed = 0;
+        this.overdueCount = 0;
+        this.hasOverdues = false;
     }
 
-    // L6: Getter methods - demonstrate encapsulation
     public String getPatronID() {
         return patronID;
     }
@@ -57,12 +40,7 @@ public class Patron {
         return hasOverdues;
     }
 
-    /**
-     * L5: Decision making for patron privileges
-     * Returns maximum books allowed based on patron type
-     */
     public int getMaxBooksAllowed() {
-        // L5: Switch statement for patron type privileges
         switch (type.toLowerCase()) {
             case "faculty":
                 return 10;
@@ -79,12 +57,7 @@ public class Patron {
         }
     }
 
-    /**
-     * L5: Decision making for borrowing period
-     * Returns maximum borrowing days based on patron type
-     */
     public int getMaxBorrowingDays() {
-        // L5: Switch statement for borrowing periods
         switch (type.toLowerCase()) {
             case "faculty":
                 return 60;
@@ -101,22 +74,19 @@ public class Patron {
         }
     }
 
-    /**
-     * L3: Arithmetic operations for book management
-     */
     public void incrementBooksBorrowed() {
-        booksBorrowed++;  // L3: Increment operator
+        booksBorrowed++;
     }
 
     public void decrementBooksBorrowed() {
         if (booksBorrowed > 0) {
-            booksBorrowed--;  // L3: Decrement operator
+            booksBorrowed--;
         }
     }
 
     public void addOverdueBook() {
         overdueCount++;
-        hasOverdues = true;  // L3: Assignment operator
+        hasOverdues = true;
     }
 
     public void removeOverdueBook() {
@@ -128,12 +98,8 @@ public class Patron {
         }
     }
 
-    /**
-     * L6: Overridden toString method
-     */
     @Override
     public String toString() {
-        // L3: String concatenation
         return name + " (" + type + ") - ID: " + patronID + 
                " [" + booksBorrowed + " books borrowed, " + 
                overdueCount + " overdue]";

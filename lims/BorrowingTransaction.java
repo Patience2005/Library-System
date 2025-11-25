@@ -1,11 +1,5 @@
-package lims.util;
+import java.time.LocalDate;
 
-import lims.model.Patron;
-import lims.model.LibraryItem;
-
-/**
- * EDUCATIONAL DEMONSTRATION: Lecture 2 - Data Types and Variables
- */
 public class BorrowingTransaction {
 
     private String transactionId;
