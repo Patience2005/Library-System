@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - Web Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-btn {
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover {
+            background-color: rgba(147, 51, 234, 0.05);
+        }
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+        .stats-card:hover {
+            transform: scale(1.05);
+        }
+        /* Alternative icons using CSS */
+        .icon-dashboard::before { content: "📊"; margin-right: 8px; }
+        .icon-book::before { content: "📚"; margin-right: 8px; }
+        .icon-plus::before { content: "➕"; margin-right: 8px; }
+        .icon-search::before { content: "🔍"; margin-right: 8px; }
+        .icon-book-open::before { content: "📖"; margin-right: 12px; }
+        .icon-check::before { content: "✅"; margin-right: 8px; }
+        .icon-clock::before { content: "🕐"; margin-right: 8px; }
+        .icon-chart::before { content: "📈"; margin-right: 8px; }
+        .icon-books::before { content: "📚"; margin-right: 12px; }
+        .icon-plus-circle::before { content: "➕"; margin-right: 12px; }
+        .icon-search-large::before { content: "🔍"; margin-right: 12px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <span class="icon-book-open text-3xl"></span>
+                    <div>
+                        <h1 class="text-2xl font-bold">Library Management System</h1>
+                        <p class="text-sm text-purple-100">Professional Book & Member Management</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm">Total Books: <span id="totalBooks" class="font-bold">0</span></span>
+                    <span class="text-sm">Members: <span id="totalMembers" class="font-bold">0</span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex space-x-8">
+                <button onclick="window.showView('dashboard')" class="nav-btn py-4 px-2 border-b-2 border-purple-600 text-purple-600 font-medium">
+                    <span class="icon-dashboard"></span>Dashboard
+                </button>
+                <button onclick="window.showView('books')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-600 hover:text-gray-800 font-medium">
+                    <span class="icon-book"></span>Books
+                </button>
+                <button onclick="window.showView('addBook')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-600 hover:text-gray-800 font-medium">
+                    <span class="icon-plus"></span>Add Book
+                </button>
+                <button onclick="window.showView('search')" class="nav-btn py-4 px-2 border-b-2 border-transparent text-gray-600 hover:text-gray-800 font-medium">
+                    <span class="icon-search"></span>Search
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Dashboard View -->
+        <div id="dashboard" class="view fade-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm font-medium">Total Books</p>
+                            <h3 class="text-3xl font-bold mt-2" id="dashboardTotalBooks">0</h3>
+                        </div>
+                        <span class="text-4xl text-blue-200">📚</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-green-100 text-sm font-medium">Available</p>
+                            <h3 class="text-3xl font-bold mt-2" id="dashboardAvailableBooks">0</h3>
+                        </div>
+                        <span class="icon-check text-4xl text-green-200"></span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-orange-100 text-sm font-medium">Fiction</p>
+                            <h3 class="text-3xl font-bold mt-2" id="dashboardFictionBooks">0</h3>
+                        </div>
+                        <span class="text-4xl text-orange-200">🐉</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-100 text-sm font-medium">Non-Fiction</p>
+                            <h3 class="text-3xl font-bold mt-2" id="dashboardNonFictionBooks">0</h3>
+                        </div>
+                        <span class="text-4xl text-purple-200">🔬</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <span class="icon-clock mr-2 text-purple-600"></span>Recent Books
+                    </h3>
+                    <div id="recentBooks" class="space-y-3">
+                        <!-- Books will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <span class="icon-chart mr-2 text-purple-600"></span>Categories
+                    </h3>
+                    <div id="categories" class="space-y-3">
+                        <!-- Categories will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books View -->
+        <div id="books" class="view hidden">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                    <h2 class="text-2xl font-bold">
+                        <span class="icon-books mr-3"></span>Complete Book Collection
+                    </h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">ISBN</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Title</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Author</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Category</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booksTable" class="divide-y divide-gray-200">
+                            <!-- Books will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Book View -->
+        <div id="addBook" class="view hidden">
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6 bg-gradient-to-r from-green-600 to-blue-600 text-white">
+                        <h2 class="text-2xl font-bold">
+                            <span class="icon-plus-circle mr-3"></span>Add New Book
+                        </h2>
+                    </div>
+                    <form id="addBookForm" class="p-6 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">ISBN</label>
+                            <input type="text" id="bookIsbn" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="978-0-13-468599-1">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                            <input type="text" id="bookTitle" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter book title">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Author</label>
+                            <input type="text" id="bookAuthor" required 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter author name">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                                <select id="bookType" required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                    <option value="">Select Type</option>
+                                    <option value="Fiction">Fiction</option>
+                                    <option value="NonFiction">Non-Fiction</option>
+                                    <option value="Reference">Reference</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                <input type="text" id="bookCategory" required 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    placeholder="e.g., Programming, Fantasy">
+                            </div>
+                        </div>
+                        <button type="submit" 
+                            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all font-medium">
+                            <span class="icon-plus mr-2"></span>Add Book to Library
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search View -->
+        <div id="search" class="view hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                        <span class="icon-search-large mr-3 text-purple-600"></span>Search Books
+                    </h2>
+                    <div class="relative">
+                        <input type="text" id="searchInput" 
+                            class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-lg"
+                            placeholder="Search by title, author, or ISBN...">
+                        <span class="text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2">🔍</span>
+                    </div>
+                </div>
+                <div id="searchResults" class="space-y-4">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 transform transition-all">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                    <span class="text-green-600 text-2xl">✅</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Success!</h3>
+                <p id="successMessage" class="text-gray-600 mb-6">Operation completed successfully.</p>
+                <button onclick="closeModal()" 
+                    class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

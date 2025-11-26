@@ -11,3 +11,24 @@
 978-0-13-46789-9,Effective C++,Scott Meyers,true,Fiction,Programming
 978-0-14-29564-5,Harry Potter and the Sorcerer's Stone,JK Rowling,true,Fiction,Fantasy
 978-0-14-45326-6,Harry Potter and the Chamber of Secrets,JK Rowling,true,Fiction,Fantasy
+978-0-13-468599-8,Here fo the fun,JOhn,true,NonFiction,Sasing
+978-0-13-468599-1,Effective Java,Joshua Bloch,true,Fiction,Programming
+978-0-321-35668-0,Clean Code,Robert C. Martin,true,Fiction,Software Engineering
+978-1-4919-5076-6,Introduction to Algorithms,Thomas H. Cormen,true,NonFiction,Computer Science
+978-0-262-03293-3,Structure and Interpretation,Harold Abelson,true,NonFiction,Programming
+978-0-13-235088-4,Java Language Specification,James Gosling,true,Reference,Reference
+978-0-07-180855-3,Java: The Complete Reference,Herbert Schildt,true,Fiction,Programming
+978-1-4493-3187-0,Head First Java,Kathy Sierra,true,Fiction,Education
+978-0-321-76572-3,The C++ Programming Language,Bjarne Stroustrup,true,NonFiction,Computer Science
+978-0-13-110362-7,The C Programming Language,Brian Kernighan,true,NonFiction,Programming
+978-0-13-468599-2,Python Documentation,Python Software Foundation,true,Reference,Reference
+978-0-13-468599-1,Effective Java,Joshua Bloch,true,Fiction,Programming
+978-0-321-35668-0,Clean Code,Robert C. Martin,true,Fiction,Software Engineering
+978-1-4919-5076-6,Introduction to Algorithms,Thomas H. Cormen,true,NonFiction,Computer Science
+978-0-262-03293-3,Structure and Interpretation,Harold Abelson,true,NonFiction,Programming
+978-0-13-235088-4,Java Language Specification,James Gosling,true,Reference,Reference
+978-0-07-180855-3,Java: The Complete Reference,Herbert Schildt,true,Fiction,Programming
+978-1-4493-3187-0,Head First Java,Kathy Sierra,true,Fiction,Education
+978-0-321-76572-3,The C++ Programming Language,Bjarne Stroustrup,true,NonFiction,Computer Science
+978-0-13-110362-7,The C Programming Language,Brian Kernighan,true,NonFiction,Programming
+978-0-13-468599-2,Python Documentation,Python Software Foundation,true,Reference,Reference

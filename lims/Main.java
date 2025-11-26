@@ -77,10 +77,10 @@ public class Main {
         
         for (int attempts = 1; attempts <= 3; attempts++) {
             System.out.print("Username: ");
-            String username = scanner.nextLine();
+            String username = scanner.nextLine().trim();
             
             System.out.print("Password: ");
-            String password = scanner.nextLine();
+            String password = scanner.nextLine().trim();
 
             if (authService.validateUser(username, password)) {
                 System.out.println("Login successful! Welcome, " + username + "!");
