@@ -129,8 +129,7 @@ books.txt (Persistent Storage)
 
 #### 🛡️ Security & Validation
 - **Authentication**: Secure login system
-- **Input Validation**: Comprehensive error checking
-- **Authorization**: Role-based access control
+t panel- **Authorization**: Role-based access control
 - **Data Validation**: ISBN format, date validation
 
 ---
